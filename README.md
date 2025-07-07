@@ -312,28 +312,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🙏 Acknowledgments
 
 - **CrewAI** for the multi-agent framework
-- **OpenAI** for language model APIs
+- **OpenAI & Anthropic** for language model APIs
 - **Streamlit** for the web interface framework
 - **SQLAlchemy** for database abstraction
-- Original notebook implementation for prompt engineering techniques
-
-## 📞 Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the troubleshooting section
-- Review the configuration documentation
-- Consult the CrewAI and OpenAI documentation
-
-## 🔄 Version History
-
-- **v1.0.0** - Initial release with full CrewAI integration
-  - Multi-agent architecture
-  - Streamlit web interface
-  - Multi-database support
-  - Performance metrics
-  - Advanced prompt engineering
+- **Tushar Badhwar**: Original pythonnotebook implementation for prompt engineering techniques
 
 ---
 
-**Made with ❤️ using CrewAI and OpenAI**
+**Made with ❤️ by Tushar Badhwar**

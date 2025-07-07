@@ -38,6 +38,9 @@ streamlit.log
 *.sqlite
 *.sqlite3
 
+# Exception: Sample database for demo purposes
+!nba.sqlite
+
 # Temporary files
 tmp/
 temp/

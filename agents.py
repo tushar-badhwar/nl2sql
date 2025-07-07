@@ -21,11 +21,14 @@ class NL2SQLAgents:
         self.model_name = model_name
         self.db_tools = create_database_tools(db_manager)
         
-        # Initialize OpenAI LLM
+        # Initialize OpenAI LLM with performance optimizations
         self.llm = ChatOpenAI(
             model=model_name,
             temperature=0.0,
-            api_key=os.getenv("OPENAI_API_KEY")
+            api_key=os.getenv("OPENAI_API_KEY"),
+            max_tokens=1000,  # Limit response length
+            timeout=30,       # Set timeout for faster failures
+            max_retries=1     # Reduce retries for faster execution
         )
     
     def create_schema_analyst_agent(self) -> Agent:

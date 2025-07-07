@@ -84,7 +84,7 @@ class NL2SQLCrew:
                 agents=[self.agents_factory.get_agent_by_name("schema_analyst")],
                 tasks=[schema_task],
                 process=Process.sequential,
-                verbose=True
+                verbose=False  # Reduce verbosity for faster execution
             )
             
             # Execute schema analysis
@@ -131,11 +131,11 @@ class NL2SQLCrew:
                     for fk in schema['foreign_keys']:
                         schema_info += f"  - {fk['column']} -> {fk['referenced_table']}.{fk['referenced_column']}\n"
                 
-                # Get sample data
-                sample_data = self.db_manager.get_sample_data(table, limit=2)
+                # Get sample data (reduced for performance)
+                sample_data = self.db_manager.get_sample_data(table, limit=1)
                 if sample_data['success'] and sample_data['data']:
-                    schema_info += f"Sample data (first 2 rows):\n"
-                    for i, row in enumerate(sample_data['data'][:2]):
+                    schema_info += f"Sample data (first 1 row):\n"
+                    for i, row in enumerate(sample_data['data'][:1]):
                         schema_info += f"  Row {i+1}: {dict(row)}\n"
                 
                 schema_info += "\n"

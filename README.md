@@ -68,7 +68,7 @@ nlsql/
    ```
 
 4. **Configure OpenAI API Key**:
-   - Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+   - Get your API key from your LLM provider
    - Add it to your `.env` file or set it in the application interface
 
 ## 🚀 Quick Start

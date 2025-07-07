@@ -1,0 +1,54 @@
+# Claude Code specific files
+.claude/
+
+# Environment files
+.env
+*.env
+.env.template
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+streamlit.log
+
+# Database files (for security)
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+tmp/
+temp/
+/tmp/
+
+# User feedback data (might contain sensitive info)
+feedback_examples.json
+
+# Model outputs and cache
+*.pkl
+*.pickle
+
+# Production setup files (may contain sensitive config)
+setup_production.py

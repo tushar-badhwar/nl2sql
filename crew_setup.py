@@ -150,7 +150,8 @@ class NL2SQLCrew:
                      natural_language_question: str, 
                      use_full_workflow: bool = True,
                      db_type: str = "Unknown",
-                     db_path: str = "Unknown") -> Dict[str, Any]:
+                     db_path: str = "Unknown",
+                     skip_schema: bool = False) -> Dict[str, Any]:
         """
         Process a natural language query through the complete workflow
         
@@ -159,6 +160,7 @@ class NL2SQLCrew:
             use_full_workflow: Whether to use full workflow or quick processing
             db_type: Database type
             db_path: Database path or name
+            skip_schema: Whether to skip schema analysis for faster processing
             
         Returns:
             Dict[str, Any]: Complete processing results
@@ -169,7 +171,7 @@ class NL2SQLCrew:
             self.metrics["total_queries"] += 1
             
             if use_full_workflow:
-                return self._process_full_workflow(natural_language_question, db_type, db_path)
+                return self._process_full_workflow(natural_language_question, db_type, db_path, skip_schema)
             else:
                 return self._process_quick_workflow(natural_language_question)
                 
@@ -192,7 +194,8 @@ class NL2SQLCrew:
     def _process_full_workflow(self, 
                               natural_language_question: str, 
                               db_type: str,
-                              db_path: str) -> Dict[str, Any]:
+                              db_path: str,
+                              skip_schema: bool = False) -> Dict[str, Any]:
         """
         Process query using the full workflow with all agents
         
@@ -200,6 +203,7 @@ class NL2SQLCrew:
             natural_language_question: The natural language question
             db_type: Database type
             db_path: Database path or name
+            skip_schema: Whether to skip schema analysis for faster processing
             
         Returns:
             Dict[str, Any]: Complete processing results
@@ -207,8 +211,13 @@ class NL2SQLCrew:
         logger.info(f"Processing full workflow for question: {natural_language_question}")
         
         try:
-            # Step 1: Schema Analysis (cached if available)
-            schema_context = self.analyze_schema(db_type, db_path)
+            # Step 1: Schema Analysis (conditional based on skip_schema flag)
+            if skip_schema and self._schema_cache:
+                logger.info("Skipping schema analysis - using cached schema")
+                schema_context = self._schema_cache
+            else:
+                logger.info("Performing schema analysis")
+                schema_context = self.analyze_schema(db_type, db_path)
             
             # Step 2: Create workflow tasks - but we'll override descriptions with fresh context
             tasks = self.tasks_factory.create_complete_workflow_tasks(

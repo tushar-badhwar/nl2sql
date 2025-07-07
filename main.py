@@ -539,13 +539,27 @@ def render_query_interface():
         help="Enter your question in natural language"
     )
     
-    # Submit button
-    if st.button("🚀 Process Query", type="primary"):
+    # Performance options
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        # Submit button
+        process_query = st.button("🚀 Process Query", type="primary")
+    
+    with col2:
+        # Speed optimization checkbox
+        skip_schema = st.checkbox(
+            "⚡ Fast Mode", 
+            value=False,
+            help="Skip schema analysis for faster processing (uses cached schema)"
+        )
+    
+    if process_query:
         if not question.strip():
             st.error("Please enter a question")
             return
         
-        process_natural_language_query(question, use_full_workflow=True, show_metrics=False)
+        process_natural_language_query(question, use_full_workflow=True, show_metrics=False, skip_schema=skip_schema)
     
     # Display AI results if they exist
     if 'current_ai_result' in st.session_state and st.session_state.current_ai_result:
@@ -558,7 +572,7 @@ def render_query_interface():
         )
     
 
-def process_natural_language_query(question: str, use_full_workflow: bool, show_metrics: bool):
+def process_natural_language_query(question: str, use_full_workflow: bool, show_metrics: bool, skip_schema: bool = False):
     """Process natural language query through CrewAI"""
     
     if not st.session_state.crew:
@@ -579,7 +593,8 @@ def process_natural_language_query(question: str, use_full_workflow: bool, show_
                 natural_language_question=question,
                 use_full_workflow=use_full_workflow,
                 db_type=db_type,
-                db_path=db_path
+                db_path=db_path,
+                skip_schema=skip_schema
             )
             
             processing_time = time.time() - start_time

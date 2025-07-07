@@ -3,6 +3,14 @@ Streamlit Web Interface for Natural Language to SQL Application
 Main entry point for the web-based NL2SQL application
 """
 
+# SQLite compatibility fix for Streamlit Cloud
+import sys
+try:
+    import pysqlite3
+    sys.modules['sqlite3'] = pysqlite3
+except ImportError:
+    pass
+
 import streamlit as st
 import logging
 import os

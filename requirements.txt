@@ -5,6 +5,9 @@ langchain-openai>=0.1.0
 sqlalchemy>=2.0.0
 pandas>=2.0.0
 
+# SQLite compatibility fix for Streamlit Cloud
+pysqlite3-binary
+
 # Database Connectors
 pymysql>=1.1.0              # MySQL connector
 psycopg2-binary>=2.9.0      # PostgreSQL connector

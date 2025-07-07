@@ -6,12 +6,13 @@ Convert natural language questions into SQL queries using AI-powered multi-agent
 
 - **Natural Language Processing**: Ask questions in plain English
 - **Multi-Database Support**: SQLite, PostgreSQL, MySQL
-- **AI-Powered**: Uses OpenAI GPT-4o with CrewAI multi-agent framework
+- **AI-Powered**: Uses OpenAI/Anthropic models with CrewAI multi-agent framework
 - **Interactive Interface**: Streamlit web application
-- **Human Feedback**: Thumbs up/down system for continuous learning
+- **Human Feedback**: Thumbs up/down system for human in the loop learning
 - **Ground Truth Testing**: Compare AI queries with your own SQL
+- **Zero shot accuracy**: Can achieve upto ~85% semantic sql accuracy without any human in the loop learning.
 
-## 🚀 Quick Start
+## 🚀 How to deploy locally
 
 1. **Clone and Install**:
    ```bash
@@ -26,15 +27,23 @@ Convert natural language questions into SQL queries using AI-powered multi-agent
    ```
 
 3. **Run Application**:
+   - Make sure you have streamlit installed:
+   ```bash
+   streamlit --version
+   ```
+   - If the above returns an error, run this:
+   ```bash
+   pip install streamlit
+   ```
    ```bash
    streamlit run main.py
    ```
 
 4. **Use the App**:
-   - Upload a SQLite database
+   - Upload a SQLite database or add crednetials for your PostgresSQL/MySQL DB
    - Ask questions like "How many customers do we have?"
    - Review generated SQL and results
-   - Provide feedback to improve accuracy
+   - Provide feedback to improve accuracy using like/dislike buttons
 
 ## 🏗️ Architecture
 
@@ -44,13 +53,6 @@ Multi-agent system with specialized roles:
 - **SQL Evaluator**: Validates and executes queries
 - **Result Interpreter**: Explains results in business terms
 
-## 🚀 Deploy
-
-### Streamlit Cloud (Recommended)
-1. Visit [share.streamlit.io](https://share.streamlit.io)
-2. Connect this GitHub repository
-3. Add `OPENAI_API_KEY` in secrets
-4. Deploy!
 
 ### Docker
 ```bash
@@ -64,6 +66,6 @@ MIT License - see LICENSE file for details.
 
 ## 🙏 Credits
 
-Built with CrewAI, OpenAI GPT-4o, and Streamlit.
+Built with CrewAI, LLMs, and Streamlit.
 
 **Made with ❤️ by Tushar Badhwar**

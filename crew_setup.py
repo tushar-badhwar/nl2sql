@@ -311,27 +311,14 @@ class NL2SQLCrew:
                 Ensure the query is safe to execute and uses correct table/column names from the schema above.
                 """
             
-            # Update result interpretation task (fourth task)
-            if len(tasks) >= 4:
-                interp_task = tasks[3]
-                interp_task.description = f"""
-                Interpret the results of the SQL query for the question: "{natural_language_question}"
-                
-                Your task is to:
-                1. Analyze the SQL query results in context
-                2. Explain what the data shows in clear, non-technical terms
-                3. Provide insights and patterns from the data
-                4. Identify the specific database tables and columns that were used
-                
-                Focus on making the technical results accessible and understandable for users.
-                """
+            # Removed result interpretation task for better performance - now only 3 tasks total
             
             # Step 3: Create crew with all agents
             crew = Crew(
                 agents=list(self.agents_factory.get_all_agents().values()),
                 tasks=tasks,
                 process=Process.sequential,
-                verbose=True,
+                verbose=False,  # Reduced verbosity for better performance
                 max_execution_time=300  # 5 minute timeout
             )
             

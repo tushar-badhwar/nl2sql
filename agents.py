@@ -43,7 +43,7 @@ class NL2SQLAgents:
             normalization principles, and schema optimization. You excel at understanding complex database 
             structures and relationships between tables. Your expertise helps other agents understand 
             the database context needed for accurate SQL generation.""",
-            verbose=True,
+            verbose=False,  # Reduced verbosity for better performance
             allow_delegation=False,
             llm=self.llm,
             system_message=f"""You are a database schema expert. Your primary responsibilities include:
@@ -87,7 +87,7 @@ Your analysis should be based on the ACTUAL connected database, not hypothetical
             across different database systems. You have a deep understanding of SQL optimization, query 
             performance, and best practices. You excel at interpreting natural language requirements and 
             translating them into precise SQL statements that leverage the database schema effectively.""",
-            verbose=True,
+            verbose=False,  # Reduced verbosity for better performance
             allow_delegation=False,
             llm=self.llm,
             system_message="""You are an expert SQL query generator. Your responsibilities include:
@@ -145,7 +145,7 @@ Always think step-by-step and explain your reasoning before generating the final
             experience in SQL validation, query optimization, and database security. You have a keen eye 
             for spotting potential issues in SQL queries and ensuring they execute safely and efficiently. 
             You excel at debugging SQL problems and providing constructive feedback.""",
-            verbose=True,
+            verbose=False,  # Reduced verbosity for better performance
             allow_delegation=False,
             llm=self.llm,
             system_message="""You are a SQL query evaluator and validator. Your responsibilities include:
@@ -201,45 +201,28 @@ Always prioritize safety and correctness over speed."""
             understanding the business context behind data queries and presenting findings in a way 
             that stakeholders can easily understand and act upon. Your expertise bridges the gap 
             between technical data and business value.""",
-            verbose=True,
+            verbose=False,  # Reduced verbosity for better performance
             allow_delegation=False,
             llm=self.llm,
-            system_message="""You are a business intelligence analyst specializing in result interpretation. Your responsibilities include:
+            system_message="""You are a business intelligence analyst specializing in identifying database resources used in queries.
 
-1. **Result Analysis**: Analyze SQL query results in business context
-2. **Data Translation**: Convert technical data into clear, understandable explanations
-3. **Insight Generation**: Identify patterns, trends, and key insights from data
+Your ONLY responsibility is to:
+1. **Identify Tables and Columns**: Extract the specific database tables and columns that were used in the SQL query
 
 **Required Output Format:**
-Your response must be structured with exactly these three sections:
+Your response must contain ONLY this information:
 
-**Executive Summary**: [Provide a concise overview of what the data shows - the key finding in 1-2 sentences]
+**Tables and Columns Used**: [List the specific database tables and columns that were queried to generate these results in a clear, concise format]
 
-**Detailed Analysis**: [Provide a thorough explanation of the results, including specific numbers, context, and what the data means. Explain any patterns, comparisons, or notable aspects of the results.]
-
-**Tables and Columns Used**: [List the specific database tables and columns that were queried to generate these results.]
-
-**Communication Style:**
-- Use clear, non-technical language
-- Avoid database jargon
-- Provide specific numbers and comparisons
-- Structure information logically
-- Focus on what the data reveals
-
-**Key Areas to Address:**
-- Quantitative findings (counts, averages, totals)
-- Comparative analysis (highest, lowest, differences)
-- Data patterns and context
-- What the numbers represent in real terms
+**Instructions:**
+- Do NOT provide executive summaries
+- Do NOT provide detailed analysis
+- Do NOT provide business insights
+- ONLY identify and list the tables and columns used
+- Be concise and direct
 
 **Example Format:**
-**Executive Summary**: The query reveals there are 30 teams currently in the NBA.
-
-**Detailed Analysis**: The SQL query executed successfully and counted the distinct team IDs in the database, resulting in a total of 30 teams. This number represents all the franchises currently active in the National Basketball Association, which aligns with the league's current structure that has been in place since the Charlotte Bobcats joined as the 30th team in 2004.
-
-**Tables and Columns Used**: The query accessed the 'teams' table, specifically using the 'team_id' column to count unique team entries.
-
-IMPORTANT: Only include Executive Summary, Detailed Analysis, and Tables and Columns Used sections. Do not include Business Impact, Recommendations, or Follow-up Opportunities."""
+**Tables and Columns Used**: The query accessed the 'teams' table, specifically using the 'team_id' column to count unique team entries."""
         )
     
     def get_all_agents(self) -> Dict[str, Agent]:
@@ -252,8 +235,8 @@ IMPORTANT: Only include Executive Summary, Detailed Analysis, and Tables and Col
         return {
             "schema_analyst": self.create_schema_analyst_agent(),
             "sql_generator": self.create_sql_generator_agent(),
-            "sql_evaluator": self.create_sql_evaluator_agent(),
-            "result_interpreter": self.create_result_interpreter_agent()
+            "sql_evaluator": self.create_sql_evaluator_agent()
+            # Removed result_interpreter for better performance
         }
     
     def get_agent_by_name(self, name: str) -> Agent:
@@ -261,7 +244,7 @@ IMPORTANT: Only include Executive Summary, Detailed Analysis, and Tables and Col
         Get a specific agent by name
         
         Args:
-            name: Agent name ("schema_analyst", "sql_generator", "sql_evaluator", "result_interpreter")
+            name: Agent name ("schema_analyst", "sql_generator", "sql_evaluator")
             
         Returns:
             Agent: The requested agent

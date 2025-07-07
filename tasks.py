@@ -294,10 +294,8 @@ class NL2SQLTasks:
         # Create query evaluation task
         evaluation_task = self.create_query_evaluation_task("")
         
-        # Create result interpretation task
-        interpretation_task = self.create_result_interpretation_task({}, natural_language_question)
-        
-        return [schema_task, query_task, evaluation_task, interpretation_task]
+        # Removed result interpretation task for better performance
+        return [schema_task, query_task, evaluation_task]
     
     def create_quick_query_tasks(self, 
                                 natural_language_question: str, 
@@ -318,10 +316,9 @@ class NL2SQLTasks:
         # Create query evaluation task
         evaluation_task = self.create_query_evaluation_task("")
         
-        # Create result interpretation task
-        interpretation_task = self.create_result_interpretation_task({}, natural_language_question)
+        # Removed result interpretation task for better performance
         
-        return [query_task, evaluation_task, interpretation_task]
+        return [query_task, evaluation_task]
     
     def create_sql_generation_task_with_feedback(self, question: str, feedback_prompt: str, schema_context: str) -> Task:
         """

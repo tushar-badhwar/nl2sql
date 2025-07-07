@@ -722,17 +722,7 @@ def display_query_results(result: Dict[str, Any], question: str, processing_time
         with st.expander("🔍 View Raw Response"):
             st.text(raw_output)
     
-    # Show AI interpretation
-    if raw_output:
-        st.write("#### 🤖 AI Analysis & Interpretation")
-        
-        # Try to extract just the interpretation part (remove SQL)
-        interpretation = extract_interpretation_from_text(raw_output, sql_query)
-        
-        if interpretation:
-            st.write(interpretation)
-        else:
-            st.write(raw_output)
+    # Removed AI interpretation section for cleaner UI and better performance
     
     # Show metrics if requested
     if show_metrics:
@@ -1062,11 +1052,10 @@ def main():
         # Application info
         st.header("ℹ️ Application Info")
         st.info("""
-        This application uses CrewAI with specialized agents:
+        This application uses CrewAI with 3 specialized agents:
         - **Schema Analyst**: Analyzes database structure
         - **SQL Generator**: Converts NL to SQL
-        - **SQL Evaluator**: Validates and executes queries, sends feedback to SQL generator in case of errors.
-        - **Result Interpreter**: Explains reasoning behind generated queries
+        - **SQL Evaluator**: Validates and executes queries, sends feedback to SQL generator agent in case of errors, to generate a revised query
         """)
     
     # Main content

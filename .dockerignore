@@ -1,0 +1,15 @@
+.git
+.gitignore
+.claude
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+venv/
+.streamlit/
+*.log
+.DS_Store
+Thumbs.db
+README.md

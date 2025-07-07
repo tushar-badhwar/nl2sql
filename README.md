@@ -1,8 +1,8 @@
-# 🤖 Natural Language to SQL (NL2SQL)
+# Natural Language to SQL (NL2SQL)
 
 Convert natural language questions into SQL queries using AI-powered multi-agent system.
 
-## ✨ Features
+## Features
 
 - **Natural Language Processing**: Ask questions in plain English
 - **Multi-Database Support**: SQLite, PostgreSQL, MySQL
@@ -12,7 +12,7 @@ Convert natural language questions into SQL queries using AI-powered multi-agent
 - **Ground Truth Testing**: Compare AI queries with your own SQL
 - **Zero shot accuracy**: Can achieve upto ~85% semantic sql accuracy without any human in the loop learning.
 
-## 🚀 How to deploy locally
+## How to deploy locally
 
 1. **Clone and Install**:
    ```bash
@@ -34,8 +34,6 @@ Convert natural language questions into SQL queries using AI-powered multi-agent
    - If the above returns an error, run this:
    ```bash
    pip install streamlit
-   ```
-   ```bash
    streamlit run main.py
    ```
 
@@ -45,14 +43,12 @@ Convert natural language questions into SQL queries using AI-powered multi-agent
    - Review generated SQL and results
    - Provide feedback to improve accuracy using like/dislike buttons
 
-## 🏗️ Architecture
+## Architecture
 
 Multi-agent system with specialized roles:
 - **Schema Analyst**: Analyzes database structure
 - **SQL Generator**: Converts natural language to SQL
 - **SQL Evaluator**: Validates and executes queries
-- **Result Interpreter**: Explains results in business terms
-
 
 ### Docker
 ```bash

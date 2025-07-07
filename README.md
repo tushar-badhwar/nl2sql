@@ -11,6 +11,7 @@ Convert natural language questions into SQL queries using AI-powered multi-agent
 - **Human Feedback**: Thumbs up/down system for human in the loop learning
 - **Ground Truth Testing**: Compare AI queries with your own SQL
 - **Zero shot accuracy**: Can achieve upto ~85% semantic sql accuracy without any human in the loop learning
+- **Sample Dataset**: Pre-loaded NBA database with sample questions for instant testing
 - **Performance Optimization**: Fast mode to skip schema analysis for 40-50% faster query processing
 - **Token Efficiency**: Optimized with 1000 token limits and reduced verbosity for faster LLM responses
 - **Schema Caching**: Intelligent caching system to avoid repeated database schema analysis
@@ -42,8 +43,9 @@ Convert natural language questions into SQL queries using AI-powered multi-agent
    ```
 
 4. **Use the App**:
-   - Upload a SQLite database or add credentials for your PostgreSQL/MySQL DB
-   - Ask questions like "How many customers do we have?"
+   - **Quick Start**: Click "Try Sample NBA Dataset" for instant demo with pre-loaded data
+   - **Your Data**: Upload a SQLite database or add credentials for your PostgreSQL/MySQL DB
+   - Ask questions like "How many teams are in the NBA?" or "How many customers do we have?"
    - Toggle Fast Mode for quicker responses (skips schema re-analysis)
    - Review generated SQL and results
    - Provide feedback to improve accuracy using like/dislike buttons

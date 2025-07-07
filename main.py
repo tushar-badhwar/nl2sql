@@ -228,10 +228,35 @@ def initialize_session_state():
     
     if 'user_feedback' not in st.session_state:
         st.session_state.user_feedback = {}
+    
+    if 'nba_database_connected' not in st.session_state:
+        st.session_state.nba_database_connected = False
 
 def sidebar_database_config():
     """Render database configuration sidebar"""
     st.sidebar.header("🗄️ Database Configuration")
+    
+    # Quick start option
+    st.sidebar.subheader("Quick Start")
+    if st.sidebar.button("🏀 Try Sample NBA Dataset", type="primary"):
+        connect_sample_database()
+    
+    # Show sample questions if NBA database is connected
+    if st.session_state.connection_status and st.session_state.nba_database_connected:
+        st.sidebar.markdown("---")
+        st.sidebar.subheader("🏀 Sample Questions")
+        st.sidebar.markdown("""
+        **Try these NBA queries:**
+        - How many teams are in the NBA?
+        - List all teams from California
+        - Who are the players with 'James' in their name?
+        - Show me the Boston Celtics team details
+        - How many players are in the database?
+        - Which teams were founded before 1950?
+        """)
+    
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("Connect Your Database")
     
     # Database type selection
     db_type = st.sidebar.selectbox(
@@ -306,7 +331,10 @@ def sidebar_database_config():
     
     # Connection status
     if st.session_state.connection_status:
-        st.sidebar.success("✅ Database Connected")
+        if st.session_state.nba_database_connected:
+            st.sidebar.success("✅ NBA Sample Database Connected")
+        else:
+            st.sidebar.success("✅ Database Connected")
         
         # Show table count
         try:
@@ -314,6 +342,7 @@ def sidebar_database_config():
             st.sidebar.info(f"📊 {len(tables)} tables found")
         except Exception as e:
             st.sidebar.warning(f"Could not retrieve table count: {str(e)}")
+        
     else:
         st.sidebar.warning("❌ Database Not Connected")
     
@@ -327,6 +356,7 @@ def connect_to_database(params: Dict[str, Any]):
             
             if success:
                 st.session_state.connection_status = True
+                st.session_state.nba_database_connected = False  # Reset NBA flag for custom DB
                 st.session_state.crew = NL2SQLCrew(
                     st.session_state.db_manager,
                     model_name='gpt-4o'
@@ -347,6 +377,45 @@ def connect_to_database(params: Dict[str, Any]):
     except Exception as e:
         st.sidebar.error(f"Database connection error: {str(e)}")
         st.session_state.connection_status = False
+
+def connect_sample_database():
+    """Connect to the sample NBA database"""
+    try:
+        with st.spinner("Connecting to sample NBA database..."):
+            # Use the nba.sqlite file in the current directory
+            import os
+            nba_db_path = os.path.join(os.getcwd(), "nba.sqlite")
+            
+            if not os.path.exists(nba_db_path):
+                st.sidebar.error("Sample NBA database not found")
+                return
+            
+            success = st.session_state.db_manager.connect(
+                db_type='sqlite',
+                file_path=nba_db_path
+            )
+            
+            if success:
+                st.session_state.connection_status = True
+                st.session_state.nba_database_connected = True
+                st.session_state.crew = NL2SQLCrew(
+                    st.session_state.db_manager,
+                    model_name='gpt-4o'
+                )
+                st.sidebar.success("Connected to NBA database!")
+                
+                # Clear previous schema cache
+                st.session_state.schema_cached = False
+                st.session_state.current_schema = None
+                
+                # Trigger schema analysis
+                analyze_schema()
+                
+            else:
+                st.sidebar.error("Failed to connect to sample database")
+                
+    except Exception as e:
+        st.sidebar.error(f"Sample database connection error: {str(e)}")
 
 def analyze_schema():
     """Analyze database schema"""
